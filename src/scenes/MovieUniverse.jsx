@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { movies } from '../data/movies';
@@ -9,8 +9,18 @@ gsap.registerPlugin(ScrollTrigger);
 const MovieUniverse = ({ onMovieSelect }) => {
     const sectionRef = useRef(null);
     const triggerRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    useEffect(() => {
+        if (!sectionRef.current || !triggerRef.current) return;
+
         const pin = gsap.fromTo(sectionRef.current, {
             translateX: 0
         }, {
@@ -63,12 +73,13 @@ const MovieUniverse = ({ onMovieSelect }) => {
                     }} />
 
                     <h2 style={{
-                        fontSize: '8vw',
+                        fontSize: isMobile ? '12vw' : '8vw', // Larger on mobile
                         color: 'white',
                         zIndex: 2,
                         fontFamily: 'var(--font-heading)',
                         textAlign: 'center',
-                        lineHeight: 0.9
+                        lineHeight: 0.9,
+                        padding: isMobile ? '0 20px' : '0'
                     }}>
                         CHOOSE YOUR <br /> <span style={{ color: 'var(--c-primary)', fontStyle: 'italic' }}>ERA</span>
                     </h2>
@@ -123,20 +134,23 @@ const MovieUniverse = ({ onMovieSelect }) => {
                             position: 'relative',
                             zIndex: 10,
                             display: 'flex',
+                            flexDirection: isMobile ? 'column' : 'row', // STACK ON MOBILE
                             alignItems: 'center',
-                            gap: '5vw',
-                            transform: 'perspective(1000px) rotateY(10deg)', // 3D Tilt
-                            pointerEvents: 'none' // Allow click on parent
+                            gap: isMobile ? '20px' : '5vw',
+                            transform: isMobile ? 'none' : 'perspective(1000px) rotateY(10deg)', // Remove 3D on mobile for clarity
+                            pointerEvents: 'none',
+                            padding: '20px'
                         }}>
                             {/* Poster Image */}
                             <div style={{
-                                width: '30vw',
-                                height: '70vh',
-                                border: `8px solid ${movie.color}`,
-                                boxShadow: `20px 20px 50px rgba(0,0,0,0.8)`,
+                                width: isMobile ? '70vw' : '30vw',
+                                height: isMobile ? '45vh' : '70vh',
+                                border: `4px solid ${movie.color}`,
+                                boxShadow: `10px 10px 30px rgba(0,0,0,0.8)`,
                                 overflow: 'hidden',
                                 background: '#000',
-                                borderRadius: '4px'
+                                borderRadius: '4px',
+                                flexShrink: 0
                             }}>
                                 <img src={movie.image} alt={movie.title} style={{
                                     width: '100%',
@@ -147,32 +161,32 @@ const MovieUniverse = ({ onMovieSelect }) => {
                             </div>
 
                             {/* Text Info */}
-                            <div style={{ maxWidth: '40vw', color: 'white' }}>
+                            <div style={{ maxWidth: isMobile ? '90vw' : '40vw', color: 'white', textAlign: isMobile ? 'center' : 'left' }}>
                                 <h2 style={{
-                                    fontSize: '6vw',
+                                    fontSize: isMobile ? '3rem' : '6vw',
                                     lineHeight: 0.9,
                                     fontFamily: 'var(--font-heading)',
-                                    marginBottom: '20px',
+                                    marginBottom: isMobile ? '10px' : '20px',
                                     textShadow: '0 10px 30px black'
                                 }}>
                                     {movie.title}
                                 </h2>
                                 <p style={{
-                                    fontSize: '1.2rem',
+                                    fontSize: isMobile ? '1rem' : '1.2rem',
                                     fontFamily: 'var(--font-body)',
-                                    marginBottom: '30px',
-                                    borderLeft: `5px solid ${movie.color}`,
-                                    paddingLeft: '20px'
+                                    marginBottom: isMobile ? '20px' : '30px',
+                                    borderLeft: isMobile ? 'none' : `5px solid ${movie.color}`,
+                                    paddingLeft: isMobile ? '0' : '20px'
                                 }}>
                                     "{movie.shortDialogue}"
                                 </p>
                                 <button style={{
-                                    padding: '15px 40px',
+                                    padding: isMobile ? '10px 30px' : '15px 40px',
                                     background: 'white',
                                     color: 'black',
                                     border: 'none',
                                     fontFamily: 'var(--font-heading)',
-                                    fontSize: '1.5rem',
+                                    fontSize: isMobile ? '1.2rem' : '1.5rem',
                                     cursor: 'pointer',
                                     textTransform: 'uppercase',
                                     letterSpacing: '2px'
