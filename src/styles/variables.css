@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Oswald:wght@400;600;700&display=swap');
+
+:root {
+  /* Cinematic Color Palette */
+  --c-dark: #050505;
+  --c-light: #e0e0e0;
+  --c-primary: #ff3c00;
+  /* International Orange */
+  --c-secondary: #00d2ff;
+  /* Electric Blue */
+  --c-gold: #c5a059;
+  /* Muted Gold */
+  --c-accent: #ff0055;
+  /* Hot Pink */
+
+  /* Typography */
+  --font-heading: 'Oswald', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-comic: 'Montserrat', sans-serif;
+  /* Replaced "Comic" with clean modern sans for quality */
+
+  /* Easing */
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://fonts.gstatic.com/s/outfit/v11/QGYyz_MVcBeNP4NjuGObqx1XmO1I4TC0C4G-StheGq9s.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bangers';
+  src: url('https://fonts.gstatic.com/s/bangers/v20/FeVQS0625D36VIGD2CA.woff2') format('woff2');
+  font-display: swap;
+}
